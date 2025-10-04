@@ -100,7 +100,17 @@
 
   <!-- LMS (Gated) -->
   <section id="lms" class="container section">
-    <h2>Learning (Members Only)</h2>
+    <h2<!-- Access Gate -->
+<div id="lmsGate">
+  <p>Enter Access Code to view the videos</p>
+  <input type="password" id="accessCode" placeholder="Enter access code">
+  <button id="accessBtn">Submit</button>
+  <p id="errorMsg" style="color:red;"></p>
+</div>
+
+<!-- Videos will show only after correct code -->
+<div id="lmsContent" style="display:none;"></div>
+</h2>
     <p class="muted">Login with your Gmail to access recorded videos.</p>
     <div id="lmsGate" class="gate">
       <i class="fa-solid fa-lock"></i>
