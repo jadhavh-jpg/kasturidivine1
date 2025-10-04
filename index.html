@@ -156,6 +156,23 @@
       </div>
     </div>
   </section>
+<!-- LMS (Access Code Protected) -->
+<section id="lms" class="section">
+  <div class="container">
+    <h2>Student Videos</h2>
+
+    <!-- Access Gate -->
+    <div id="lmsGate">
+      <p>Enter Access Code to view the videos</p>
+      <input type="password" id="accessCode" placeholder="Enter access code">
+      <button id="accessBtn">Submit</button>
+      <p id="errorMsg" style="color:red;"></p>
+    </div>
+
+    <!-- Videos will show here -->
+    <div id="lmsContent" style="display:none;"></div>
+  </div>
+</section>
 
   <footer>
     <div class="container">
@@ -164,5 +181,60 @@
   </footer>
 
   <script src="app.js"></script>
+  <script>
+  const ACCESS_CODE = 'KASTURI2025';
+
+  function show(el){ el && (el.style.display = 'block'); }
+  function hide(el){ el && (el.style.display = 'none'); }
+
+  function renderLMS(){
+    const lmsContent = document.getElementById('lmsContent');
+    lmsContent.innerHTML = '';
+    const videos = [
+      { title: 'Basics of Astrology – Session 1', url: 'https://www.youtube.com/embed/fDEQWNFNHVo' },
+      { title: 'Remedies Workshop – Part A',     url: 'https://www.youtube.com/embed/fDEQWNFNHVo' },
+      { title: 'Q&A with Mentors',               url: 'https://www.youtube.com/embed/fDEQWNFNHVo' }
+    ];
+    videos.forEach(v=>{
+      const card = document.createElement('div');
+      card.className = 'lms-card';
+      card.innerHTML = `<h4>${v.title}</h4><iframe src="${v.url}" allowfullscreen></iframe>`;
+      lmsContent.appendChild(card);
+    });
+  }
+
+  function checkAccess(){
+    const codeInput = document.getElementById('accessCode');
+    const msg = document.getElementById('errorMsg');
+    const lmsGate = document.getElementById('lmsGate');
+    const lmsContent = document.getElementById('lmsContent');
+
+    if (codeInput.value === ACCESS_CODE){
+      sessionStorage.setItem('lms_ok','1');
+      hide(lmsGate);
+      show(lmsContent);
+      renderLMS();
+    } else {
+      msg.textContent = '❌ Incorrect access code.';
+    }
+  }
+
+  window.addEventListener('DOMContentLoaded', ()=>{
+    const lmsGate = document.getElementById('lmsGate');
+    const lmsContent = document.getElementById('lmsContent');
+    const btn = document.getElementById('accessBtn');
+
+    if (sessionStorage.getItem('lms_ok') === '1'){
+      hide(lmsGate);
+      show(lmsContent);
+      renderLMS();
+    } else {
+      show(lmsGate);
+      hide(lmsContent);
+    }
+    if (btn) btn.addEventListener('click', checkAccess);
+  });
+</script>
+
 </body>
 </html>
