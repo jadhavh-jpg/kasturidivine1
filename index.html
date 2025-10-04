@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Kasturi Divine – Single Page</title>
+  <link href="style.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+  <!-- Google Identity Services (for Sign in with Google) -->
+  <script src="https://accounts.google.com/gsi/client" async defer></script>
+</head>
+<body>
+
+  <!-- Header -->
+  <header>
+    <div class="container nav" id="top">
+      <div class="brand">
+        <button class="menu-toggle" aria-label="Toggle navigation">
+          <i class="fa-solid fa-bars"></i>
+        </button>
+        <div class="logo">
+          <img src="LOGO.png" alt="Kasturi Divine Logo">
+        </div>
+        <h1>KASTURI DIVINE</h1>
+      </div>
+      <nav>
+        <ul>
+          <li><a href="#home">Home</a></li>
+          <li><a href="#prediction">Prediction</a></li>
+          <li><a href="#membership">Membership</a></li>
+          <li><a href="#remedies">Remedies</a></li>
+          <li><a href="#events">Events</a></li>
+          <li><a href="#lms">LMS</a></li>
+          <li><a href="#about">About Us</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+      </nav>
+      <div class="auth-area">
+        <div id="g_id_onload"
+             data-client_id="YOUR_GOOGLE_CLIENT_ID"
+             data-auto_select="false"
+             data-callback="onGoogleSignIn">
+        </div>
+        <div class="g_id_signin" data-type="standard" data-size="large" data-theme="outline" data-text="signin_with" data-shape="pill" data-logo_alignment="left"></div>
+        <div class="user-chip" id="userChip" hidden>
+          <img id="userPic" alt="User" />
+          <span id="userName"></span>
+          <button id="logoutBtn" class="btn btn-outline btn-tiny">Logout</button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero -->
+  <section id="home" class="hero">
+    <div class="container hero-wrap">
+      <div>
+        <h2 class="title">Kasturi Divine</h2>
+        <p class="subtitle">Spiritual guidance, practical remedies, and a supportive community — all in one place.</p>
+        <div class="card-row">
+          <a class="feature-card" href="#prediction"><i class="fa-solid fa-comments"></i><h3>Prediction</h3></a>
+          <a class="feature-card" href="#membership"><i class="fa-solid fa-id-card"></i><h3>Membership</h3></a>
+          <a class="feature-card" href="#remedies"><i class="fa-solid fa-mortar-pestle"></i><h3>Remedies</h3></a>
+          <a class="feature-card" href="#events"><i class="fa-solid fa-calendar"></i><h3>Upcoming Event</h3></a>
+        </div>
+        <div style="margin-top:20px;">
+          <a class="btn btn-primary" href="https://wa.me/919300594567" target="_blank" rel="noopener">
+            <i class="fa-brands fa-whatsapp"></i> Join Now
+          </a>
+        </div>
+      </div>
+      <div>
+        <div class="faces">
+          <div class="face"><img src="SN.png" alt="Dr. Santoshh Jakhar and Mrs. Neitu Choudhary"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Sections -->
+  <section id="prediction" class="container section">
+    <h2>Prediction</h2>
+    <p>Book consultations to get insightful predictions aligned with your life goals.</p>
+  </section>
+
+  <section id="membership" class="container section">
+    <h2>Membership</h2>
+    <p>Join our community to access exclusive sessions, resources, and ongoing support.</p>
+  </section>
+
+  <section id="remedies" class="container section">
+    <h2>Remedies</h2>
+    <p>Simple, practical, and ethical remedies tailored to your situation.</p>
+  </section>
+
+  <section id="events" class="container section">
+    <h2>Upcoming Event</h2>
+    <p>Stay tuned for our next workshop. Add your number on WhatsApp to get notified.</p>
+  </section>
+
+  <!-- LMS (Gated) -->
+  <section id="lms" class="container section">
+    <h2>Learning (Members Only)</h2>
+    <p class="muted">Login with your Gmail to access recorded videos.</p>
+    <div id="lmsGate" class="gate">
+      <i class="fa-solid fa-lock"></i>
+      <p>Content locked. Please sign in with Google above.</p>
+    </div>
+    <div id="lmsContent" class="lms-grid" hidden>
+      <!-- Videos will be injected here after login -->
+    </div>
+  </section>
+
+  <!-- Testimonials -->
+  <section id="testimonials" class="container section">
+    <h2>What Members Say</h2>
+    <div class="cards">
+      <div class="t-card">
+        <p>“Guidance was on point and practical. I felt a positive shift in just a week.”</p>
+        <span>- Pooja S.</span>
+      </div>
+      <div class="t-card">
+        <p>“Community & remedies helped me navigate a tough phase with confidence.”</p>
+        <span>- Rakesh K.</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact -->
+  <section id="contact" class="container section contact">
+    <h2>Contact Us</h2>
+    <form id="contactForm">
+      <div class="grid">
+        <input type="text" id="name" placeholder="Your Name" required>
+        <input type="tel" id="phone" placeholder="Phone (optional)">
+      </div>
+      <textarea id="message" rows="5" placeholder="Your Message" required></textarea>
+      <button type="submit" class="btn btn-primary"><i class="fa-brands fa-whatsapp"></i> Send on WhatsApp</button>
+    </form>
+    <small class="helper">By sending, you'll open WhatsApp chat with a pre-filled message.</small>
+  </section>
+
+  <!-- CTA -->
+  <section id="join" class="cta">
+    <div class="container cta-inner">
+      <div>
+        <h2>Ready to join Kasturi Divine?</h2>
+        <p>Connect with us on WhatsApp and start your journey today.</p>
+      </div>
+      <div class="cta-actions">
+        <a class="whatsapp" href="https://wa.me/919300594567" target="_blank" rel="noopener">
+          <i class="fa-brands fa-whatsapp"></i>
+          <span>Chat on WhatsApp</span>
+        </a>
+        <a class="btn btn-primary" href="#top"><i class="fa-solid fa-arrow-up"></i> Back to Top</a>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container">
+      <small>© <span id="year"></span> Kasturi Divine • All rights reserved.</small>
+    </div>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
