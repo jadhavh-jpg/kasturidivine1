@@ -26,7 +26,7 @@ const lmsContent = document.getElementById('lmsContent');
 
 // Demo LMS videos (replace with your own URLs)
 const videos = [
-  { title: 'Basics of Astrology – Session 1', url: 'https://www.youtube.com/embed/G2n5zD2u3bU' },
+  { title: 'Basics of Astrology – Session 1', url: 'https://www.youtube.com/watch?v=fDEQWNFNHVo' },
   { title: 'Remedies Workshop – Part A', url: 'https://www.youtube.com/embed/4qAtW5M2zq4' },
   { title: 'Q&A with Mentors', url: 'https://www.youtube.com/embed/tU1Q75MDdK4' }
 ];
