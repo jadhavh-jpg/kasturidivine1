@@ -1,3 +1,4 @@
+const CLIENT_ID = "90337719169-46noqr1o6if5rf0n3d5ldr75eheg28nl.apps.googleusercontent.com";
 
 // Year
 document.getElementById('year').textContent = new Date().getFullYear();
