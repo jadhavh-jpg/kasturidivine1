@@ -1,59 +1,393 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Kasturi Divine – Single Page</title>
-  <link href="style.css" rel="stylesheet">
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Kasturi Divine • Shop</title>
+  <style>
+    :root{
+      --brand:#5b3a1a; --accent:#c8a46a; --bg:#faf8f4; --text:#2b2b2b; --muted:#777; --card:#ffffff;
+    }
+    *{box-sizing:border-box}
+    body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial;background:var(--bg);color:var(--text)}
+    header{position:sticky;top:0;z-index:10;background:var(--card);border-bottom:1px solid #eee}
+    .wrap{max-width:1100px;margin:auto;padding:16px}
+    .brand{display:flex;align-items:center;gap:12px;font-weight:700;color:var(--brand)}
+    .brand img{width:40px;height:40px;object-fit:contain}
+    .toolbar{display:flex;gap:8px;align-items:center;justify-content:space-between}
+    .search{display:flex;gap:8px;flex:1;max-width:520px;margin:0 16px;background:#f4efe6;border:1px solid #eadfcd;border-radius:999px;padding:8px 12px}
+    .search input{flex:1;border:0;background:transparent;outline:0;font-size:15px}
+    .btn{cursor:pointer;border:1px solid var(--accent);color:#fff;background:var(--accent);padding:10px 14px;border-radius:999px;font-weight:600;transition:.2s}
+    .btn.ghost{background:#fff;color:var(--brand);border-color:#e6d8bf}
+    .btn:hover{filter:brightness(0.95)}
+    main .heading{padding:18px 0 6px;color:var(--brand);font-size:20px;font-weight:700}
+    .grid{display:grid;gap:16px;grid-template-columns:repeat(auto-fill,minmax(220px,1fr))}
+    .card{background:var(--card);border:1px solid #eee;border-radius:16px;overflow:hidden;display:flex;flex-direction:column;box-shadow:0 2px 10px rgba(0,0,0,.04)}
+    .card img{width:100%;height:200px;object-fit:cover;background:#f2f2f2}
+    .card .pad{padding:12px}
+    .title{font-weight:700}
+    .price{color:var(--brand);font-weight:800;margin:6px 0 2px}
+    .mrp{color:var(--muted);text-decoration:line-through;font-size:13px;margin-left:6px}
+    .ship{font-size:12px;color:var(--muted)}
+    .card .actions{display:flex;gap:8px;margin-top:10px}
+    .tag{font-size:12px;background:#fff5e6;border:1px dashed #ffd9a1;color:#8a5b1c;padding:3px 8px;border-radius:999px;display:inline-block;margin-top:6px}
+    dialog{border:0;width:min(920px,95vw);border-radius:20px;padding:0;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,.18)}
+    dialog::backdrop{background:rgba(0,0,0,.4)}
+    .drawer{display:grid;grid-template-columns:1fr 1fr}
+    .drawer .left{background:#f8f6f1;padding:14px}
+    .right{padding:20px}
+    .right h2{margin:0 0 6px}
+    .muted{color:var(--muted);font-size:14px}
+    .gallery{display:grid;grid-template-rows:auto 70px;gap:10px}
+    .hero{width:100%;height:380px;border-radius:14px;object-fit:cover;background:#eee}
+    .thumbs{display:flex;gap:8px;overflow:auto}
+    .thumbs img{width:70px;height:70px;object-fit:cover;border-radius:10px;border:2px solid transparent;cursor:pointer}
+    .thumbs img.active{border-color:var(--accent)}
+    .qty{display:flex;gap:8px;align-items:center;margin:10px 0}
+    .qty input{width:70px;padding:8px;border-radius:10px;border:1px solid #ddd}
+    form .row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+    form input,form textarea,form select{width:100%;padding:10px;border-radius:12px;border:1px solid #ddd;font-size:15px;background:#fff}
+    form textarea{min-height:90px;resize:vertical}
+    .paybox{display:flex;gap:10px;flex-wrap:wrap;margin:6px 0 12px}
+    .payopt{border:1px solid #e6d8bf;padding:8px 12px;border-radius:12px}
+    .note{font-size:12px;color:var(--muted)}
+    .coupon{display:flex;gap:8px;margin:8px 0}
+    .pill{display:inline-flex;align-items:center;gap:6px;background:#fff5e6;border:1px dashed #ffd9a1;padding:4px 10px;border-radius:999px;font-size:12px}
+    .bill{margin-top:10px;border-top:1px solid #eee;padding-top:10px;font-size:14px}
+    .bill .row{display:flex;justify-content:space-between;margin:4px 0}
+    footer{padding:24px 0;text-align:center;color:#8c6b3d;font-size:13px}
+    @media (max-width:780px){.drawer{grid-template-columns:1fr}.search{margin:10px 0}.hero{height:280px}}
+  </style>
 </head>
 <body>
-
-  <!-- Header -->
-  <header>
-    <div class="container nav" id="top">
-      <div class="brand">
-        <div class="logo">
-          <img src="LOGO.png" alt="Kasturi Divine Logo">
-        </div>
-        <h1>KASTURI DIVINE</h1>
-      </div>
-      <nav>
-        <ul>
-          <li><a href="#home">Home</a></li>
-          <li><a href="#course">Course</a></li>
-          <li><a href="#product">Product</a></li>
-          <li><a href="#about">About Us</a></li>
-        </ul>
-      </nav>
+<header>
+  <div class="wrap toolbar">
+    <div class="brand">
+      <img src="LOGO.png" alt="Kasturi Divine" onerror="this.style.display='none'">
+      <span>KASTURI DIVINE • Shop</span>
     </div>
-  </header>
+    <div class="search">
+      <input id="q" type="search" placeholder="Search remedies, yantra, crystals…">
+      <button class="btn ghost" onclick="clearSearch()">Clear</button>
+    </div>
+    <div><a class="btn ghost" href="index.html">⬅ Back to Home</a></div>
+  </div>
+</header>
 
-  <!-- Hero -->
-  <section id="home" class="hero">
-    <div class="container hero-wrap">
-      <div>
-        <h2 class="title">Kasturi Divine</h2>
-        <p class="subtitle">Spiritual guidance, practical remedies, and a supportive community — all in one place.</p>
-        <div class="card-row">
-          <a class="feature-card" href="#prediction"><i class="fa-solid fa-comments"></i><h3>Prediction</h3></a>
-          <a class="feature-card" href="#membership"><i class="fa-solid fa-id-card"></i><h3>Membership</h3></a>
-          <a class="feature-card" href="#remedies"><i class="fa-solid fa-mortar-pestle"></i><h3>Remedies</h3></a>
-          <a class="feature-card" href="#events"><i class="fa-solid fa-calendar-star"></i><h3>Upcoming Event</h3></a>
-        </div>
-        <div style="margin-top:20px;">
-          <a class="btn btn-primary" href="https://wa.me/919300594567" target="_blank" rel="noopener">
-            <i class="fa-brands fa-whatsapp"></i> Join Now
-          </a>
-        </div>
-      </div>
-      <div>
-        <div class="faces">
-          <div class="face"><img src="SN.png" alt="Dr. Santoshh Jakhar and Mrs. Neitu Choudhary"></div>
-        </div>
+<main class="wrap">
+  <div class="heading">Featured Products</div>
+  <div id="grid" class="grid"></div>
+</main>
+
+<footer>Secure checkout • COD/UPI available • Delivery all India</footer>
+
+<!-- PRODUCT DETAIL + CHECKOUT -->
+<dialog id="drawer">
+  <div class="drawer">
+    <div class="left">
+      <div class="gallery">
+        <img id="hero" class="hero" alt="">
+        <div id="thumbs" class="thumbs"></div>
       </div>
     </div>
-  </section>
+    <div class="right">
+      <button class="btn ghost" style="float:right" onclick="closeDrawer()">✕ Close</button>
+      <h2 id="dTitle"></h2>
+      <div class="muted" id="dCat"></div>
+      <div class="price">₹<span id="dPrice"></span> <span class="mrp" id="dMrp"></span></div>
+      <span class="tag" id="dTag"></span>
+      <p id="dDesc" class="muted" style="margin-top:10px"></p>
 
+      <div class="qty">Qty: <input id="qty" type="number" min="1" value="1"></div>
+
+      <!-- Coupon -->
+      <div class="coupon">
+        <input id="couponInput" placeholder="Enter coupon code (e.g., KASTURI10)" />
+        <button class="btn ghost" onclick="applyCoupon()">Apply</button>
+        <span id="applied" class="pill" style="display:none"></span>
+      </div>
+
+      <!-- Bill -->
+      <div class="bill" id="billBox">
+        <div class="row"><span>Item total</span><b>₹<span id="bItem">0</span></b></div>
+        <div class="row"><span>Discount</span><b>-₹<span id="bDisc">0</span></b></div>
+        <div class="row"><span>Delivery</span><b>₹<span id="bShip">0</span></b></div>
+        <div class="row" style="border-top:1px dashed #eee;padding-top:6px;font-weight:800;color:var(--brand)">
+          <span>To Pay</span><span>₹<span id="bPay">0</span></span>
+        </div>
+        <div class="note">Free delivery for orders ≥ ₹999 or coupon <b>FREEDEL</b>.</div>
+      </div>
+
+      <form id="orderForm" onsubmit="submitOrder(event)">
+        <div class="row">
+          <input required name="name" placeholder="Full name">
+          <input required name="phone" placeholder="Phone" pattern="[0-9]{10,13}">
+        </div>
+        <textarea required name="address" placeholder="Full address with pincode"></textarea>
+        <div class="row">
+          <input name="city" placeholder="City">
+          <input name="state" placeholder="State">
+        </div>
+        <select name="payment" required>
+          <option value="" disabled selected>Choose Payment Method</option>
+          <option>UPI</option>
+          <option>Cash on Delivery (COD)</option>
+        </select>
+        <div class="paybox">
+          <span class="payopt">7‑day replacement</span>
+          <span class="payopt">Secure payment</span>
+        </div>
+        <div style="display:flex;gap:10px;margin-top:10px">
+          <button type="submit" class="btn">Buy Now</button>
+          <button type="button" class="btn ghost" onclick="closeDrawer()">Cancel</button>
+        </div>
+        <input type="hidden" name="productId" id="productId">
+        <input type="hidden" name="productTitle" id="productTitle">
+        <input type="hidden" name="productPrice" id="productPrice">
+        <input type="hidden" name="coupon" id="couponHidden">
+      </form>
+    </div>
+  </div>
+</dialog>
+
+<!-- THANK YOU -->
+<dialog id="thankyou">
+  <div style="padding:24px;max-width:520px">
+    <h3 style="margin:0 0 6px;color:var(--brand)">Order placed ✔</h3>
+    <p class="muted">Thank you! For UPI, pay to the UPI ID/QR below and share screenshot on WhatsApp.</p>
+    <div id="upiBox" style="border:1px dashed #e6d8bf;padding:12px;border-radius:12px;background:#fffaf0;margin:12px 0">
+      <b>UPI ID:</b> <span id="upiId">wardhman@upi</span><br>
+      <b>Amount:</b> ₹<span id="amt"></span><br>
+      <div class="note">COD select kiya ho to amount courier ko dena hoga.</div>
+    </div>
+    <a class="btn" href="https://wa.me/918878211880" target="_blank" rel="noopener">Send details on WhatsApp</a>
+    <button class="btn ghost" onclick="document.getElementById('thankyou').close()">Close</button>
+  </div>
+</dialog>
+
+<script>
+/* ----------------- Products with MULTIPLE IMAGES ----------------- */
+const PRODUCTS = [
+  {
+    id:"pyrite-bracelet",
+    title:"Pyrite Bracelet – Money Magnet",
+    price:699, mrp:999,
+    imgs:["SN.png","public/images/pyrite2.jpg","public/images/pyrite3.jpg"],
+    cat:"Crystal • Wealth",
+    tag:"Best Seller",
+    desc:"Energized pyrite bracelet for prosperity and confidence. Standard size with strong elastic thread."
+  },
+  {
+    id:"rudraksha-yantra",
+    title:"Shree Yantra (Brass) – 3 inch",
+    price:1199, mrp:1499,
+    imgs:["public/images/yantra.jpg","public/images/yantra2.jpg"],
+    cat:"Yantra • Prosperity",
+    tag:"Premium",
+    desc:"Beautifully crafted brass Shree Yantra for home/office temple."
+  },
+  {
+    id:"vastu-salt",
+    title:"Vastu Himalayan Salt – 1kg",
+    price:249, mrp:349,
+    imgs:["public/images/salt.jpg","public/images/salt2.jpg"],
+    cat:"Remedy • Vastu",
+    tag:"Daily Use",
+    desc:"Use for space cleansing and negative energy removal."
+  },
+  {
+    id:"navgrah-havan",
+    title:"Navgrah Havan Kit",
+    price:1599, mrp:1999,
+    imgs:["public/images/havan.jpg","public/images/havan2.jpg"],
+    cat:"Pooja • Kit",
+    tag:"Combo",
+    desc:"Complete kit for Navgrah Havan with instructions."
+  }
+];
+
+/* ----------------- Coupons -----------------
+   - KASTURI10 : 10% off (min ₹500)
+   - FESTIVE100: flat ₹100 off (min ₹799)
+   - FREEDEL   : delivery free
+------------------------------------------------ */
+const COUPONS = {
+  KASTURI10: {type:'percent', value:10, min:500},
+  FESTIVE100:{type:'flat', value:100, min:799},
+  FREEDEL   : {type:'freedel', value:0,  min:0},
+};
+
+const grid = document.getElementById('grid');
+function render(list){
+  grid.innerHTML = "";
+  list.forEach(p=>{
+    const el = document.createElement('div');
+    el.className = 'card';
+    const firstImg = (p.imgs && p.imgs[0]) || "https://via.placeholder.com/640x400?text=Product";
+    el.innerHTML = `
+      <img src="${firstImg}" alt="${p.title}" onerror="this.src='https://via.placeholder.com/640x400?text=Product'">
+      <div class="pad">
+        <div class="title">${p.title}</div>
+        <div class="price">₹${p.price} <span class="mrp">₹${p.mrp}</span></div>
+        <div class="ship">Fast delivery across India</div>
+        <span class="tag">${p.tag}</span>
+        <div class="actions">
+          <button class="btn" onclick="openDrawer('${p.id}')">Buy</button>
+          <button class="btn ghost" onclick="openDrawer('${p.id}')">View</button>
+        </div>
+      </div>
+    `;
+    grid.appendChild(el);
+  });
+}
+render(PRODUCTS);
+
+/* Search */
+const q = document.getElementById('q');
+q.addEventListener('input', ()=>{
+  const term = q.value.toLowerCase().trim();
+  const filtered = PRODUCTS.filter(p =>
+    p.title.toLowerCase().includes(term) ||
+    p.cat.toLowerCase().includes(term) ||
+    p.tag.toLowerCase().includes(term)
+  );
+  render(filtered);
+});
+function clearSearch(){ q.value=""; render(PRODUCTS); }
+
+/* Drawer + Gallery + Billing */
+const drawer = document.getElementById('drawer');
+let currentProduct=null, appliedCoupon=null;
+
+function buildGallery(imgs){
+  const hero = document.getElementById('hero');
+  const thumbs = document.getElementById('thumbs');
+  const safeImgs = (imgs && imgs.length? imgs : ["https://via.placeholder.com/640x400?text=Product"]);
+  hero.src = safeImgs[0];
+  thumbs.innerHTML = "";
+  safeImgs.forEach((src,idx)=>{
+    const t = document.createElement('img');
+    t.src = src; t.alt = "image "+(idx+1);
+    if(idx===0) t.classList.add('active');
+    t.onerror = ()=>{t.src='https://via.placeholder.com/140?text=Image';};
+    t.addEventListener('click', ()=>{
+      hero.src = src;
+      [...thumbs.children].forEach(c=>c.classList.remove('active'));
+      t.classList.add('active');
+    });
+    thumbs.appendChild(t);
+  });
+}
+
+function openDrawer(id){
+  const p = PRODUCTS.find(x=>x.id===id); if(!p) return;
+  currentProduct=p; appliedCoupon=null;
+  document.getElementById('dTitle').textContent = p.title;
+  document.getElementById('dCat').textContent = p.cat;
+  document.getElementById('dPrice').textContent = p.price;
+  document.getElementById('dMrp').textContent = '₹'+p.mrp;
+  document.getElementById('dTag').textContent = p.tag;
+  document.getElementById('dDesc').textContent = p.desc;
+  document.getElementById('productId').value = p.id;
+  document.getElementById('productTitle').value = p.title;
+  document.getElementById('productPrice').value = p.price;
+  document.getElementById('qty').value = 1;
+  document.getElementById('couponInput').value = "";
+  document.getElementById('applied').style.display='none';
+  document.getElementById('couponHidden').value="";
+  buildGallery(p.imgs);
+  recalcBill();
+  drawer.showModal();
+  history.replaceState(null, "", `?id=${encodeURIComponent(p.id)}`);
+}
+function closeDrawer(){ drawer.close(); history.replaceState(null,"",location.pathname); }
+
+/* Billing */
+function deliveryCharge(subtotal, hasFreeDel){
+  if(hasFreeDel) return 0;
+  return subtotal>=999 ? 0 : 49; // small delivery fee if below 999
+}
+function discountAmount(subtotal){
+  if(!appliedCoupon) return 0;
+  const rule = COUPONS[appliedCoupon];
+  if(!rule) return 0;
+  if(subtotal < (rule.min||0)) return 0;
+  if(rule.type==='percent') return Math.round(subtotal*rule.value/100);
+  if(rule.type==='flat') return Math.min(rule.value, subtotal);
+  return 0;
+}
+function recalcBill(){
+  const qty = parseInt(document.getElementById('qty').value||'1',10);
+  const price = currentProduct.price;
+  const itemTotal = price*qty;
+  const disc = discountAmount(itemTotal);
+  const hasFreeDel = appliedCoupon==='FREEDEL';
+  const ship = deliveryCharge(itemTotal-disc, hasFreeDel);
+  const toPay = Math.max(0, itemTotal - disc + ship);
+
+  document.getElementById('bItem').textContent = itemTotal;
+  document.getElementById('bDisc').textContent = disc;
+  document.getElementById('bShip').textContent = ship;
+  document.getElementById('bPay').textContent = toPay;
+  return toPay;
+}
+document.getElementById('qty').addEventListener('input', recalcBill);
+
+/* Coupon apply */
+function applyCoupon(){
+  const code = (document.getElementById('couponInput').value||'').toUpperCase().trim();
+  const pill = document.getElementById('applied');
+  const qty = parseInt(document.getElementById('qty').value||'1',10);
+  const subtotal = currentProduct.price*qty;
+
+  if(!COUPONS[code]){
+    pill.style.display='inline-flex';
+    pill.textContent = "Invalid code";
+    pill.style.background='#ffe5e5'; pill.style.border='1px dashed #ffb3b3';
+    appliedCoupon=null; document.getElementById('couponHidden').value="";
+    recalcBill(); return;
+  }
+  const rule = COUPONS[code];
+  if(subtotal < (rule.min||0)){
+    pill.style.display='inline-flex';
+    pill.textContent = `Min ₹${rule.min} required`;
+    pill.style.background='#fff5e6'; pill.style.border='1px dashed #ffd9a1';
+    appliedCoupon=null; document.getElementById('couponHidden').value="";
+    recalcBill(); return;
+  }
+  appliedCoupon = code;
+  document.getElementById('couponHidden').value = code;
+  pill.style.display='inline-flex';
+  pill.textContent = `Applied: ${code}`;
+  pill.style.background='#e9ffe9'; pill.style.border='1px dashed #b6e8b6';
+  recalcBill();
+}
+
+/* Submit */
+function submitOrder(e){
+  e.preventDefault();
+  const fd = new FormData(e.target);
+  const qty = parseInt(document.getElementById('qty').value||'1',10);
+  const pay = recalcBill(); // final amount after discounts
+  document.getElementById('amt').textContent = pay;
+  const paymentMethod = fd.get('payment')||'';
+  document.getElementById('upiBox').style.display = paymentMethod.includes('UPI') ? 'block' : 'none';
+
+  console.log('ORDER',
+    Object.fromEntries(fd.entries()),
+    {product:currentProduct.id, qty, appliedCoupon, pay});
+
+  document.getElementById('thankyou').showModal();
+}
+
+/* URL open by ?id= */
+const params = new URLSearchParams(location.search);
+if(params.get('id')) openDrawer(params.get('id'));
+
+/* Close on Esc */
+document.addEventListener('keydown', (ev)=>{
+  if(ev.key==='Escape'){ if(drawer.open) drawer.close(); if(thankyou.open) thankyou.close(); }
+});
+</script>
 </body>
 </html>
