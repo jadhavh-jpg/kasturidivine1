@@ -5,146 +5,193 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Kasturi Divine • Shop</title>
   <style>
-    :root{
-      --brand:#5b3a1a; /* kasturi brown */
-      --accent:#c8a46a;
-      --bg:#faf8f4;
-      --text:#2b2b2b;
-      --muted:#777;
-      --card:#ffffff;
-    }
-    *{box-sizing:border-box}
-    body{
-      margin:0; font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial;
-      background:var(--bg); color:var(--text);
-    }
-    header{
-      position:sticky; top:0; z-index:10;
-      background:var(--card); border-bottom:1px solid #eee;
-    }
-    .wrap{max-width:1100px; margin:auto; padding:16px}
-    .brand{
-      display:flex; align-items:center; gap:12px; font-weight:700; letter-spacing:.3px;
-      color:var(--brand)
-    }
-    .brand img{width:40px; height:40px; object-fit:contain}
-    .toolbar{display:flex; gap:8px; align-items:center; justify-content:space-between}
-    .search{
-      display:flex; gap:8px; flex:1; max-width:520px; margin:0 16px;
-      background:#f4efe6; border:1px solid #eadfcd; border-radius:999px; padding:8px 12px;
-    }
-    .search input{flex:1; border:0; background:transparent; outline:0; font-size:15px}
-    .btn{
-      cursor:pointer; border:1px solid var(--accent); color:#fff; background:var(--accent);
-      padding:10px 14px; border-radius:999px; font-weight:600; transition:.2s;
-    }
-    .btn.ghost{background:#fff; color:var(--brand); border-color:#e6d8bf}
+    :root{--brand:#5b3a1a;--accent:#c8a46a;--bg:#faf8f4;--text:#2b2b2b;--muted:#777;--card:#ffffff}
+    *{box-sizing:border-box} body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial;background:var(--bg);color:var(--text)}
+    header{position:sticky;top:0;z-index:10;background:var(--card);border-bottom:1px solid #eee}
+    .wrap{max-width:1100px;margin:auto;padding:16px}
+    .brand{display:flex;align-items:center;gap:12px;font-weight:700;color:var(--brand)}
+    .brand img{width:40px;height:40px;object-fit:contain}
+    .toolbar{display:flex;gap:12px;align-items:center;justify-content:space-between}
+    .search{display:flex;gap:8px;flex:1;max-width:520px;margin:0 16px;background:#f4efe6;border:1px solid #eadfcd;border-radius:999px;padding:8px 12px}
+    .search input{flex:1;border:0;background:transparent;outline:0;font-size:15px}
+    .btn{cursor:pointer;border:1px solid var(--accent);color:#fff;background:var(--accent);padding:10px 14px;border-radius:999px;font-weight:600;transition:.2s}
+    .btn.ghost{background:#fff;color:var(--brand);border-color:#e6d8bf}
+    .btn.small{padding:6px 10px;border-radius:12px;font-size:13px}
     .btn:hover{filter:brightness(0.95)}
-    main .heading{padding:18px 0 6px; color:var(--brand); font-size:20px; font-weight:700}
-    .grid{
-      display:grid; gap:16px; grid-template-columns:repeat( auto-fill, minmax(220px,1fr) );
-    }
-    .card{
-      background:var(--card); border:1px solid #eee; border-radius:16px; overflow:hidden;
-      display:flex; flex-direction:column; box-shadow:0 2px 10px rgba(0,0,0,.04);
-    }
-    .card img{width:100%; height:200px; object-fit:cover; background:#f2f2f2}
+    .iconbtn{position:relative}
+    .badge{position:absolute;top:-6px;right:-6px;background:#e74c3c;color:#fff;font-size:11px;padding:2px 6px;border-radius:999px}
+    main .heading{padding:18px 0 6px;color:var(--brand);font-size:20px;font-weight:700}
+    .grid{display:grid;gap:16px;grid-template-columns:repeat(auto-fill,minmax(220px,1fr))}
+    .card{background:var(--card);border:1px solid #eee;border-radius:16px;overflow:hidden;display:flex;flex-direction:column;box-shadow:0 2px 10px rgba(0,0,0,.04)}
+    .card img{width:100%;height:200px;object-fit:cover;background:#f2f2f2}
     .card .pad{padding:12px}
     .title{font-weight:700}
-    .price{color:var(--brand); font-weight:800; margin:6px 0 2px}
-    .mrp{color:var(--muted); text-decoration:line-through; font-size:13px; margin-left:6px}
-    .ship{font-size:12px; color:var(--muted)}
-    .card .actions{display:flex; gap:8px; margin-top:10px}
-    .tag{font-size:12px; background:#fff5e6; border:1px dashed #ffd9a1; color:#8a5b1c;
-         padding:3px 8px; border-radius:999px; display:inline-block; margin-top:6px}
-    /* drawer (product detail + checkout) */
-    dialog{
-      border:0; width:min(920px,95vw); border-radius:20px; padding:0; overflow:hidden;
-      box-shadow:0 20px 60px rgba(0,0,0,.18);
-    }
+    .price{color:var(--brand);font-weight:800;margin:6px 0 2px}
+    .mrp{color:var(--muted);text-decoration:line-through;font-size:13px;margin-left:6px}
+    .ship{font-size:12px;color:var(--muted)}
+    .card .actions{display:flex;gap:8px;margin-top:10px}
+    .tag{font-size:12px;background:#fff5e6;border:1px dashed #ffd9a1;color:#8a5b1c;padding:3px 8px;border-radius:999px;display:inline-block;margin-top:6px}
+    dialog{border:0;width:min(960px,96vw);border-radius:20px;padding:0;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,.18)}
     dialog::backdrop{background:rgba(0,0,0,.4)}
-    .drawer{display:grid; grid-template-columns: 1fr 1fr;}
-    .drawer .left{background:#f8f6f1}
-    .drawer .left img{width:100%; height:100%; object-fit:cover}
-    .drawer .right{padding:20px}
+    .drawer{display:grid;grid-template-columns:1fr 1fr}
+    .drawer .left{background:#f8f6f1;padding:14px}
+    .right{padding:20px}
     .right h2{margin:0 0 6px}
-    .muted{color:var(--muted); font-size:14px}
-    .qty{display:flex; gap:8px; align-items:center; margin:10px 0}
-    .qty input{width:70px; padding:8px; border-radius:10px; border:1px solid #ddd}
-    form .row{display:grid; grid-template-columns:1fr 1fr; gap:10px}
-    form input, form textarea, form select{
-      width:100%; padding:10px; border-radius:12px; border:1px solid #ddd; font-size:15px;
-      background:#fff
-    }
-    form textarea{min-height:90px; resize:vertical}
-    .paybox{display:flex; gap:10px; flex-wrap:wrap; margin:6px 0 12px}
-    .payopt{border:1px solid #e6d8bf; padding:8px 12px; border-radius:12px; cursor:pointer}
-    .note{font-size:12px; color:var(--muted)}
-    footer{padding:24px 0; text-align:center; color:#8c6b3d; font-size:13px}
-    @media (max-width:780px){
-      .drawer{grid-template-columns:1fr}
-      .search{margin:10px 0}
-    }
+    .muted{color:var(--muted);font-size:14px}
+    .gallery{display:grid;grid-template-rows:auto 70px;gap:10px}
+    .hero{width:100%;height:380px;border-radius:14px;object-fit:cover;background:#eee}
+    .thumbs{display:flex;gap:8px;overflow:auto}
+    .thumbs img{width:70px;height:70px;object-fit:cover;border-radius:10px;border:2px solid transparent;cursor:pointer}
+    .thumbs img.active{border-color:var(--accent)}
+    .qty{display:flex;gap:8px;align-items:center;margin:10px 0}
+    .qty input{width:70px;padding:8px;border-radius:10px;border:1px solid #ddd}
+    form .row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+    form input,form textarea,form select{width:100%;padding:10px;border-radius:12px;border:1px solid #ddd;font-size:15px;background:#fff}
+    form textarea{min-height:90px;resize:vertical}
+    .paybox{display:flex;gap:10px;flex-wrap:wrap;margin:6px 0 12px}
+    .payopt{border:1px solid #e6d8bf;padding:8px 12px;border-radius:12px}
+    .note{font-size:12px;color:var(--muted)}
+    .coupon{display:flex;gap:8px;margin:8px 0}
+    .pill{display:inline-flex;align-items:center;gap:6px;background:#fff5e6;border:1px dashed #ffd9a1;padding:4px 10px;border-radius:999px;font-size:12px}
+    .bill{margin-top:10px;border-top:1px solid #eee;padding-top:10px;font-size:14px}
+    .bill .row{display:flex;justify-content:space-between;margin:4px 0}
+    footer{padding:24px 0;text-align:center;color:#8c6b3d;font-size:13px}
+
+    /* Cart Drawer */
+    .cartWrap{display:grid;grid-template-columns:2fr 1fr;gap:16px;padding:18px}
+    .cartList{max-height:55vh;overflow:auto;border:1px solid #eee;border-radius:12px}
+    .ci{display:grid;grid-template-columns:70px 1fr auto;gap:10px;align-items:center;padding:10px;border-bottom:1px solid #f2f2f2}
+    .ci img{width:70px;height:70px;object-fit:cover;border-radius:10px}
+    .ci .ttl{font-weight:600}
+    .ci .qtyBox{display:flex;align-items:center;gap:6px}
+    .sumCard{background:#fff;border:1px solid #eee;border-radius:12px;padding:14px}
+    .sumRow{display:flex;justify-content:space-between;margin:6px 0}
+    @media (max-width:820px){.drawer{grid-template-columns:1fr}.hero{height:280px}.cartWrap{grid-template-columns:1fr}}
+
+    /* Thankyou extras */
+    .qrwrap{display:grid;grid-template-columns:140px 1fr;gap:16px;align-items:center}
+    .copyrow{display:flex;gap:8px;align-items:center;margin-top:8px}
+    .copyrow input{flex:1;padding:8px;border:1px solid #ddd;border-radius:10px}
   </style>
 </head>
 <body>
-  <header>
-    <div class="wrap toolbar">
-      <div class="brand">
-        <img src="LOGO.png" alt="Kasturi Divine" onerror="this.style.display='none'">
-        <span>KASTURI DIVINE • Shop</span>
-      </div>
-      <div class="search">
-        <input id="q" type="search" placeholder="Search remedies, yantra, crystals…" />
-        <button class="btn ghost" onclick="clearSearch()">Clear</button>
-      </div>
-      <div>
-        <a class="btn ghost" href="index.html">⬅ Back to Home</a>
+<header>
+  <div class="wrap toolbar">
+    <div class="brand">
+      <img src="LOGO.png" alt="Kasturi Divine" onerror="this.style.display='none'">
+      <span>KASTURI DIVINE • Shop</span>
+    </div>
+    <div class="search">
+      <input id="q" type="search" placeholder="Search remedies, yantra, crystals…">
+      <button class="btn ghost" onclick="clearSearch()">Clear</button>
+    </div>
+    <div style="display:flex;gap:8px;align-items:center">
+      <button class="btn ghost" onclick="location.href='index.html'">⬅ Home</button>
+      <button class="btn ghost iconbtn" onclick="openCart()">
+        🛒 Cart
+        <span id="cartBadge" class="badge" style="display:none">0</span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+  <div class="heading">Featured Products</div>
+  <div id="grid" class="grid"></div>
+</main>
+
+<footer>Secure checkout • COD/UPI available • Delivery all India</footer>
+
+<!-- PRODUCT DETAIL + QUICK ADD -->
+<dialog id="drawer">
+  <div class="drawer">
+    <div class="left">
+      <div class="gallery">
+        <img id="hero" class="hero" alt="">
+        <div id="thumbs" class="thumbs"></div>
       </div>
     </div>
-  </header>
+    <div class="right">
+      <button class="btn ghost small" style="float:right" onclick="closeDrawer()">✕ Close</button>
+      <h2 id="dTitle"></h2>
+      <div class="muted" id="dCat"></div>
+      <div class="price">₹<span id="dPrice"></span> <span class="mrp" id="dMrp"></span></div>
+      <span class="tag" id="dTag"></span>
+      <p id="dDesc" class="muted" style="margin-top:10px"></p>
 
-  <main class="wrap">
-    <div class="heading">Featured Products</div>
-    <div id="grid" class="grid"></div>
-  </main>
+      <div class="qty">Qty: <input id="qty" type="number" min="1" value="1"></div>
 
-  <footer>
-    Secure checkout • COD/UPI available • Delivery all India
-  </footer>
-
-  <!-- Product Drawer -->
-  <dialog id="drawer">
-    <div class="drawer">
-      <div class="left">
-        <img id="dImg" alt="">
+      <div style="display:flex;gap:10px">
+        <button class="btn" onclick="addCurrentToCart()">Add to Cart</button>
+        <button class="btn ghost" onclick="buyNow()">Buy Now</button>
       </div>
-      <div class="right">
-        <button class="btn ghost" style="float:right" onclick="closeDrawer()">✕ Close</button>
-        <h2 id="dTitle"></h2>
-        <div class="muted" id="dCat"></div>
-        <div class="price">
-          ₹<span id="dPrice"></span>
-          <span class="mrp" id="dMrp"></span>
+
+      <!-- Coupon for Buy-Now (optional) -->
+      <div class="coupon">
+        <input id="couponInput" placeholder="Coupon (KASTURI10 / FESTIVE100 / FREEDEL)" />
+        <button class="btn ghost small" onclick="applyCoupon()">Apply</button>
+        <span id="applied" class="pill" style="display:none"></span>
+      </div>
+
+      <!-- Bill (for Buy-Now preview) -->
+      <div class="bill" id="billBox">
+        <div class="row"><span>Item total</span><b>₹<span id="bItem">0</span></b></div>
+        <div class="row"><span>Discount</span><b>-₹<span id="bDisc">0</span></b></div>
+        <div class="row"><span>Delivery</span><b>₹<span id="bShip">0</span></b></div>
+        <div class="row" style="border-top:1px dashed #eee;padding-top:6px;font-weight:800;color:var(--brand)">
+          <span>To Pay</span><span>₹<span id="bPay">0</span></span>
         </div>
-        <div class="tag" id="dTag"></div>
+        <div class="note">Free delivery ≥ ₹999 or <b>FREEDEL</b>.</div>
+      </div>
+    </div>
+  </div>
+</dialog>
 
-        <p id="dDesc" class="muted" style="margin-top:10px"></p>
-
-        <div class="qty">
-          Qty:
-          <input id="qty" type="number" min="1" value="1">
+<!-- CART DRAWER -->
+<dialog id="cart">
+  <div class="cartWrap">
+    <div>
+      <h3 style="margin:0 0 10px">Your Cart</h3>
+      <div id="cartList" class="cartList"></div>
+    </div>
+    <div>
+      <div class="sumCard">
+        <div class="coupon">
+          <input id="cartCoupon" placeholder="Coupon code">
+          <button class="btn small ghost" onclick="applyCartCoupon()">Apply</button>
         </div>
+        <div class="sumRow"><span>Subtotal</span><b>₹<span id="cSub">0</span></b></div>
+        <div class="sumRow"><span>Discount</span><b>-₹<span id="cDisc">0</span></b></div>
+        <div class="sumRow"><span>Delivery</span><b>₹<span id="cShip">0</span></b></div>
+        <div class="sumRow" style="border-top:1px dashed #eee;padding-top:8px;font-weight:800;color:var(--brand)">
+          <span>Total to Pay</span><span>₹<span id="cPay">0</span></span>
+        </div>
+        <div class="note" style="margin:6px 0 10px">Free delivery ≥ ₹999 or <b>FREEDEL</b>.</div>
+        <button class="btn" onclick="openCheckout()">Proceed to Checkout</button>
+        <button class="btn ghost" onclick="document.getElementById('cart').close()">Close</button>
+      </div>
+    </div>
+  </div>
+</dialog>
 
-        <form id="orderForm" onsubmit="submitOrder(event)">
+<!-- CHECKOUT (FINAL BILLING & ORDER) -->
+<dialog id="checkout">
+  <div style="padding:18px;max-width:820px">
+    <div style="display:flex;justify-content:space-between;align-items:center">
+      <h3 style="margin:0">Checkout</h3>
+      <button class="btn ghost small" onclick="document.getElementById('checkout').close()">✕</button>
+    </div>
+    <div style="display:grid;grid-template-columns:1.3fr .7fr;gap:16px;margin-top:12px">
+      <div>
+        <form id="checkoutForm" onsubmit="placeOrder(event)">
           <div class="row">
-            <input required name="name" placeholder="Full name" />
-            <input required name="phone" placeholder="Phone" pattern="[0-9]{10,13}" />
+            <input required name="name" placeholder="Full name">
+            <input required name="phone" placeholder="Phone" pattern="[0-9]{10,13}">
           </div>
           <textarea required name="address" placeholder="Full address with pincode"></textarea>
           <div class="row">
-            <input name="city" placeholder="City" />
-            <input name="state" placeholder="State" />
+            <input name="city" placeholder="City">
+            <input name="state" placeholder="State">
           </div>
           <select name="payment" required>
             <option value="" disabled selected>Choose Payment Method</option>
@@ -152,168 +199,285 @@
             <option>Cash on Delivery (COD)</option>
           </select>
           <div class="paybox">
-            <span class="payopt">Free delivery over ₹999</span>
             <span class="payopt">7‑day replacement</span>
             <span class="payopt">Secure payment</span>
           </div>
-          <div class="note">On selecting UPI, order page will show UPI QR/details. For COD, pay to courier.</div>
-          <div style="display:flex; gap:10px; margin-top:10px">
-            <button type="submit" class="btn">Buy Now</button>
-            <button type="button" class="btn ghost" onclick="closeDrawer()">Cancel</button>
+          <div style="display:flex;gap:10px;margin-top:10px">
+            <button type="submit" class="btn">Place Order</button>
+            <button type="button" class="btn ghost" onclick="document.getElementById('checkout').close()">Cancel</button>
           </div>
-          <input type="hidden" name="productId" id="productId">
-          <input type="hidden" name="productTitle" id="productTitle">
-          <input type="hidden" name="productPrice" id="productPrice">
         </form>
       </div>
-    </div>
-  </dialog>
-
-  <!-- Lightweight “order placed” sheet -->
-  <dialog id="thankyou">
-    <div style="padding:24px; max-width:520px">
-      <h3 style="margin:0 0 6px; color:var(--brand)">Order placed ✔</h3>
-      <p class="muted">Thank you! We’ve captured your details. For UPI, pay to the UPI ID/QR below and share screenshot on WhatsApp.</p>
-      <div id="upiBox" style="border:1px dashed #e6d8bf; padding:12px; border-radius:12px; background:#fffaf0; margin:12px 0">
-        <b>UPI ID:</b> <span id="upiId">wardhman@upi</span><br>
-        <b>Amount:</b> ₹<span id="amt"></span><br>
-        <div class="note">You can place COD if you prefer not to prepay.</div>
+      <div>
+        <div class="sumCard">
+          <div class="sumRow"><span>Items</span><b>₹<span id="kSub">0</span></b></div>
+          <div class="sumRow"><span>Discount</span><b>-₹<span id="kDisc">0</span></b></div>
+          <div class="sumRow"><span>Delivery</span><b>₹<span id="kShip">0</span></b></div>
+          <div class="sumRow" style="border-top:1px dashed #eee;padding-top:8px;font-weight:800;color:var(--brand)">
+            <span>Final To Pay</span><span>₹<span id="kPay">0</span></span>
+          </div>
+        </div>
       </div>
-      <a class="btn" href="https://wa.me/918878211880" target="_blank" rel="noopener">Send details on WhatsApp</a>
+    </div>
+  </div>
+</dialog>
+
+<!-- ORDER CONFIRM -->
+<dialog id="thankyou">
+  <div style="padding:24px;max-width:640px">
+    <h3 style="margin:0 0 6px;color:var(--brand)">Order placed ✔</h3>
+    <div class="muted" id="orderNote"></div>
+    <div class="qrwrap" style="margin:12px 0 6px">
+      <img id="upiQR" width="140" height="140" alt="UPI QR">
+      <div>
+        <div><b>UPI ID:</b> <span id="upiId">wardhman@upi</span></div>
+        <div><b>Amount:</b> ₹<span id="amt"></span></div>
+        <div class="copyrow">
+          <input id="upiLink" readonly>
+          <button class="btn small ghost" onclick="copyUPI()">Copy</button>
+        </div>
+        <div style="margin-top:6px">
+          <a id="upiDeepLink" class="btn small" href="#" >Pay in UPI App</a>
+        </div>
+      </div>
+    </div>
+    <div style="display:flex;gap:10px;margin:12px 0">
+      <a id="waShare" class="btn" target="_blank" rel="noopener">Send on WhatsApp</a>
       <button class="btn ghost" onclick="document.getElementById('thankyou').close()">Close</button>
     </div>
-  </dialog>
+    <div class="note">After UPI payment, share screenshot on WhatsApp.</div>
+  </div>
+</dialog>
 
-  <script>
-    // ----- Sample catalog (edit as per your products) -----
-    const PRODUCTS = [
-      {
-        id:"pyrite-bracelet",
-        title:"Pyrite Bracelet – Money Magnet",
-        price:699, mrp:999,
-        img:"SN.png", // replace with your image
-        cat:"Crystal • Wealth",
-        tag:"Best Seller",
-        desc:"Energized pyrite bracelet for prosperity and confidence. Standard size with strong elastic thread."
-      },
-      {
-        id:"rudraksha-yantra",
-        title:"Shree Yantra (Brass) – 3 inch",
-        price:1199, mrp:1499,
-        img:"public/images/yantra.jpg", // optional different path
-        cat:"Yantra • Prosperity",
-        tag:"Premium",
-        desc:"Beautifully crafted brass Shree Yantra for home/office temple. Blessings for abundance."
-      },
-      {
-        id:"vastu-salt",
-        title:"Vastu Himalayan Salt – 1kg",
-        price:249, mrp:349,
-        img:"public/images/salt.jpg",
-        cat:"Remedy • Vastu",
-        tag:"Daily Use",
-        desc:"Use for space cleansing and negative energy removal. Easy and effective home remedy."
-      },
-      {
-        id:"navgrah-havan",
-        title:"Navgrah Havan Kit",
-        price:1599, mrp:1999,
-        img:"public/images/havan.jpg",
-        cat:"Pooja • Kit",
-        tag:"Combo",
-        desc:"Complete kit for Navgrah Havan with instructions. Suitable for beginners."
-      }
-    ];
+<script>
+/* ----------------- Catalog with MULTIPLE IMAGES ----------------- */
+const PRODUCTS=[
+ {id:"pyrite-bracelet",title:"Pyrite Bracelet – Money Magnet",price:699,mrp:999,imgs:["SN.png","public/images/pyrite2.jpg","public/images/pyrite3.jpg"],cat:"Crystal • Wealth",tag:"Best Seller",desc:"Energized pyrite bracelet for prosperity and confidence. Standard size with strong elastic thread."},
+ {id:"rudraksha-yantra",title:"Shree Yantra (Brass) – 3 inch",price:1199,mrp:1499,imgs:["public/images/yantra.jpg","public/images/yantra2.jpg"],cat:"Yantra • Prosperity",tag:"Premium",desc:"Beautifully crafted brass Shree Yantra for home/office temple."},
+ {id:"vastu-salt",title:"Vastu Himalayan Salt – 1kg",price:249,mrp:349,imgs:["public/images/salt.jpg","public/images/salt2.jpg"],cat:"Remedy • Vastu",tag:"Daily Use",desc:"Use for space cleansing and negative energy removal."},
+ {id:"navgrah-havan",title:"Navgrah Havan Kit",price:1599,mrp:1999,imgs:["public/images/havan.jpg","public/images/havan2.jpg"],cat:"Pooja • Kit",tag:"Combo",desc:"Complete kit for Navgrah Havan with instructions."}
+];
 
-    // ----- Render grid -----
-    const grid = document.getElementById('grid');
-    function render(list){
-      grid.innerHTML = "";
-      list.forEach(p=>{
-        const el = document.createElement('div');
-        el.className = 'card';
-        el.innerHTML = `
-          <img src="${p.img}" alt="${p.title}" onerror="this.src='https://via.placeholder.com/640x400?text=Product'">
-          <div class="pad">
-            <div class="title">${p.title}</div>
-            <div class="price">₹${p.price} <span class="mrp">₹${p.mrp}</span></div>
-            <div class="ship">Fast delivery across India</div>
-            <span class="tag">${p.tag}</span>
-            <div class="actions">
-              <button class="btn" onclick="openDrawer('${p.id}')">Buy</button>
-              <button class="btn ghost" onclick="openDrawer('${p.id}')">View Details</button>
-            </div>
-          </div>
-        `;
-        grid.appendChild(el);
-      });
-    }
-    render(PRODUCTS);
+/* ----------------- Coupons ----------------- */
+const COUPONS={KASTURI10:{type:'percent',value:10,min:500},FESTIVE100:{type:'flat',value:100,min:799},FREEDEL:{type:'freedel',value:0,min:0}};
 
-    // ----- Search -----
-    const q = document.getElementById('q');
-    q.addEventListener('input', ()=>{
-      const term = q.value.toLowerCase().trim();
-      const filtered = PRODUCTS.filter(p =>
-        p.title.toLowerCase().includes(term) ||
-        p.cat.toLowerCase().includes(term) ||
-        p.tag.toLowerCase().includes(term)
-      );
-      render(filtered);
-    });
-    function clearSearch(){ q.value=""; render(PRODUCTS); }
+/* ----------------- State ----------------- */
+let cart = JSON.parse(localStorage.getItem('kd_cart')||'[]'); // [{id,qty,price,title,img}]
+let cartCoupon = localStorage.getItem('kd_cart_coupon')||'';
 
-    // ----- Drawer (details + checkout) -----
-    const drawer = document.getElementById('drawer');
-    function openDrawer(id){
-      const p = PRODUCTS.find(x=>x.id===id); if(!p) return;
-      document.getElementById('dImg').src = p.img;
-      document.getElementById('dTitle').textContent = p.title;
-      document.getElementById('dCat').textContent = p.cat;
-      document.getElementById('dPrice').textContent = p.price;
-      document.getElementById('dMrp').textContent = '₹'+p.mrp;
-      document.getElementById('dTag').textContent = p.tag;
-      document.getElementById('dDesc').textContent = p.desc;
-      document.getElementById('productId').value = p.id;
-      document.getElementById('productTitle').value = p.title;
-      document.getElementById('productPrice').value = p.price;
-      document.getElementById('qty').value = 1;
-      drawer.showModal();
-      history.replaceState(null, "", `?id=${encodeURIComponent(p.id)}`);
-    }
-    function closeDrawer(){
-      drawer.close();
-      history.replaceState(null, "", location.pathname);
-    }
-    // Open direct by URL ?id=
-    const params = new URLSearchParams(location.search);
-    if(params.get('id')) openDrawer(params.get('id'));
+function saveCart(){ localStorage.setItem('kd_cart', JSON.stringify(cart)); localStorage.setItem('kd_cart_coupon', cartCoupon||''); updateBadge(); }
+function updateBadge(){ const b=document.getElementById('cartBadge'); const n=cart.reduce((a,c)=>a+c.qty,0); b.style.display = n? 'inline-block':'none'; b.textContent=n; }
 
-    // ----- Form submit -----
-    function submitOrder(e){
-      e.preventDefault();
-      const fd = new FormData(e.target);
-      const qty = parseInt(document.getElementById('qty').value||'1',10);
-      const price = parseInt(fd.get('productPrice'),10);
-      const amount = price*qty;
-      // show thank you + UPI block if selected
-      document.getElementById('amt').textContent = amount;
-      const pay = fd.get('payment')||'';
-      document.getElementById('upiBox').style.display = pay.includes('UPI') ? 'block' : 'none';
-      document.getElementById('thankyou').showModal();
-      // Basic log in console (you can later post to Google Sheet / CountAPI)
-      console.log('ORDER', Object.fromEntries(fd.entries()), {qty, amount});
-      // Reset only minimal fields
-      // e.target.reset(); // optional
-    }
+/* ------------- Render Grid ------------- */
+const grid=document.getElementById('grid');
+function render(list){
+  grid.innerHTML="";
+  list.forEach(p=>{
+    const el=document.createElement('div'); el.className='card';
+    const img=(p.imgs&&p.imgs[0])||"https://via.placeholder.com/640x400?text=Product";
+    el.innerHTML=`
+      <img src="${img}" alt="${p.title}" onerror="this.src='https://via.placeholder.com/640x400?text=Product'">
+      <div class="pad">
+        <div class="title">${p.title}</div>
+        <div class="price">₹${p.price} <span class="mrp">₹${p.mrp}</span></div>
+        <div class="ship">Fast delivery across India</div>
+        <span class="tag">${p.tag}</span>
+        <div class="actions">
+          <button class="btn small" onclick="openDrawer('${p.id}')">View</button>
+          <button class="btn small ghost" onclick="addToCart('${p.id}',1)">Add to Cart</button>
+        </div>
+      </div>`;
+    grid.appendChild(el);
+  });
+}
+render(PRODUCTS); updateBadge();
 
-    // Escape to close dialogs
-    document.addEventListener('keydown', (ev)=>{
-      if(ev.key==='Escape'){
-        if(drawer.open) drawer.close();
-        if(thankyou.open) thankyou.close();
-      }
-    });
-  </script>
+/* Search */
+const q=document.getElementById('q');
+q.addEventListener('input', ()=>{
+  const term=q.value.toLowerCase().trim();
+  render(PRODUCTS.filter(p=>p.title.toLowerCase().includes(term)||p.cat.toLowerCase().includes(term)||p.tag.toLowerCase().includes(term)));
+});
+function clearSearch(){ q.value=''; render(PRODUCTS); }
+
+/* Drawer + Gallery + Buy Now preview */
+const drawer=document.getElementById('drawer');
+let currentProduct=null;
+function buildGallery(imgs){
+  const hero=document.getElementById('hero'); const thumbs=document.getElementById('thumbs');
+  const safe=(imgs&&imgs.length?imgs:["https://via.placeholder.com/640x400?text=Product"]);
+  hero.src=safe[0]; thumbs.innerHTML="";
+  safe.forEach((src,i)=>{ const t=document.createElement('img'); t.src=src; if(i===0)t.classList.add('active'); t.onclick=()=>{hero.src=src; [...thumbs.children].forEach(c=>c.classList.remove('active')); t.classList.add('active');}; t.onerror=()=>{t.src='https://via.placeholder.com/140?text=Image'}; thumbs.appendChild(t); });
+}
+function openDrawer(id){
+  const p=PRODUCTS.find(x=>x.id===id); if(!p) return;
+  currentProduct=p;
+  document.getElementById('dTitle').textContent=p.title;
+  document.getElementById('dCat').textContent=p.cat;
+  document.getElementById('dPrice').textContent=p.price;
+  document.getElementById('dMrp').textContent='₹'+p.mrp;
+  document.getElementById('dTag').textContent=p.tag;
+  document.getElementById('dDesc').textContent=p.desc;
+  document.getElementById('qty').value=1;
+  document.getElementById('couponInput').value=''; document.getElementById('applied').style.display='none';
+  buildGallery(p.imgs); recalcBill(); drawer.showModal();
+}
+function closeDrawer(){ drawer.close(); }
+
+function addToCart(id,qty){
+  const p=PRODUCTS.find(x=>x.id===id); if(!p) return;
+  const found=cart.find(c=>c.id===id);
+  if(found) found.qty+=qty;
+  else cart.push({id, qty, price:p.price, title:p.title, img:(p.imgs&&p.imgs[0])||''});
+  saveCart();
+}
+function addCurrentToCart(){ const qty=parseInt(document.getElementById('qty').value||'1',10); addToCart(currentProduct.id, qty); closeDrawer(); openCart(); }
+function buyNow(){ // add current then open checkout with only that item
+  const qty=parseInt(document.getElementById('qty').value||'1',10);
+  cart=[{id:currentProduct.id, qty, price:currentProduct.price, title:currentProduct.title, img:(currentProduct.imgs&&currentProduct.imgs[0])||''}];
+  const code=(document.getElementById('couponInput').value||'').toUpperCase().trim();
+  cartCoupon=code;
+  saveCart(); openCheckout();
+}
+
+/* Billing helpers */
+function deliveryCharge(subtotal, hasFreeDel){ if(hasFreeDel) return 0; return subtotal>=999?0:49; }
+function discountFor(subtotal, code){
+  if(!code) return 0; const r=COUPONS[code]; if(!r) return 0; if(subtotal<(r.min||0)) return 0;
+  if(r.type==='percent') return Math.round(subtotal*r.value/100);
+  if(r.type==='flat') return Math.min(r.value, subtotal);
+  return 0;
+}
+/* Buy-now bill (for preview only) */
+function recalcBill(){
+  const qty=parseInt(document.getElementById('qty').value||'1',10);
+  const itemTotal=currentProduct.price*qty;
+  const code=(document.getElementById('couponInput').value||'').toUpperCase().trim();
+  const disc=discountFor(itemTotal, code);
+  const hasFreeDel=(code==='FREEDEL');
+  const ship=deliveryCharge(itemTotal-disc, hasFreeDel);
+  const toPay=Math.max(0,itemTotal-disc+ship);
+  document.getElementById('bItem').textContent=itemTotal;
+  document.getElementById('bDisc').textContent=disc;
+  document.getElementById('bShip').textContent=ship;
+  document.getElementById('bPay').textContent=toPay;
+  return {itemTotal,disc,ship,toPay,code};
+}
+document.getElementById('qty').addEventListener('input', recalcBill);
+function applyCoupon(){
+  const code=(document.getElementById('couponInput').value||'').toUpperCase().trim();
+  const pill=document.getElementById('applied');
+  if(code && COUPONS[code]){ pill.style.display='inline-flex'; pill.textContent='Applied: '+code; pill.style.background='#e9ffe9'; pill.style.border='1px dashed #b6e8b6'; }
+  else if(code){ pill.style.display='inline-flex'; pill.textContent='Invalid code'; pill.style.background='#ffe5e5'; pill.style.border='1px dashed #ffb3b3'; }
+  else { pill.style.display='none'; }
+}
+
+/* --------- CART Drawer --------- */
+const cartDialog=document.getElementById('cart');
+function openCart(){ renderCart(); cartDialog.showModal(); }
+function renderCart(){
+  const list=document.getElementById('cartList'); list.innerHTML='';
+  if(!cart.length){ list.innerHTML='<div style="padding:18px;color:#777">Your cart is empty.</div>'; }
+  cart.forEach((c,i)=>{
+    const p=PRODUCTS.find(x=>x.id===c.id)||{imgs:[]};
+    const row=document.createElement('div'); row.className='ci';
+    row.innerHTML=`
+      <img src="${c.img|| (p.imgs&&p.imgs[0]) || 'https://via.placeholder.com/100?text=Item'}">
+      <div>
+        <div class="ttl">${c.title}</div>
+        <div class="muted">₹${c.price}</div>
+        <div class="qtyBox">Qty:
+          <button class="btn small ghost">-</button>
+          <span style="min-width:18px;text-align:center">${c.qty}</span>
+          <button class="btn small ghost">+</button>
+          <button class="btn small" style="margin-left:8px">Remove</button>
+        </div>
+      </div>
+      <div><b>₹${c.price*c.qty}</b></div>`;
+    const [minus,plus,removeBtn]=row.querySelectorAll('button');
+    minus.onclick=()=>{ c.qty=Math.max(1,c.qty-1); saveCart(); renderCart(); };
+    plus.onclick=()=>{ c.qty+=1; saveCart(); renderCart(); };
+    removeBtn.onclick=()=>{ cart.splice(i,1); saveCart(); renderCart(); };
+    list.appendChild(row);
+  });
+  document.getElementById('cartCoupon').value=cartCoupon||'';
+  const totals = calcCartTotals();
+  document.getElementById('cSub').textContent=totals.sub;
+  document.getElementById('cDisc').textContent=totals.disc;
+  document.getElementById('cShip').textContent=totals.ship;
+  document.getElementById('cPay').textContent=totals.pay;
+}
+function applyCartCoupon(){ cartCoupon=(document.getElementById('cartCoupon').value||'').toUpperCase().trim(); saveCart(); renderCart(); }
+function calcCartTotals(){
+  const sub = cart.reduce((a,c)=>a + c.price*c.qty, 0);
+  const disc = discountFor(sub, cartCoupon);
+  const ship = deliveryCharge(sub - disc, cartCoupon==='FREEDEL');
+  const pay = Math.max(0, sub - disc + ship);
+  return {sub,disc,ship,pay};
+}
+
+/* --------- CHECKOUT --------- */
+const checkout=document.getElementById('checkout');
+function openCheckout(){
+  const t=calcCartTotals();
+  document.getElementById('kSub').textContent=t.sub;
+  document.getElementById('kDisc').textContent=t.disc;
+  document.getElementById('kShip').textContent=t.ship;
+  document.getElementById('kPay').textContent=t.pay;
+  checkout.showModal();
+}
+function placeOrder(e){
+  e.preventDefault();
+  const fd=new FormData(e.target);
+  const t=calcCartTotals();
+  const customer = Object.fromEntries(fd.entries());
+
+  // Build UPI deep link
+  const pa="wardhman@upi"; // VPA
+  const pn="Wardhman Jewellers";
+  const tn = `Kasturi Divine Order (${new Date().toLocaleDateString()})`;
+  const uri=`upi://pay?pa=${encodeURIComponent(pa)}&pn=${encodeURIComponent(pn)}&am=${encodeURIComponent(t.pay)}&cu=INR&tn=${encodeURIComponent(tn)}`;
+
+  // Set QR (uses public QR API) + deep link + copy box
+  document.getElementById('upiQR').src = "https://api.qrserver.com/v1/create-qr-code/?size=220x220&data="+encodeURIComponent(uri);
+  document.getElementById('upiLink').value = uri;
+  document.getElementById('upiDeepLink').href = uri;
+
+  // Order summary text
+  const itemsText = cart.map(c=>`• ${c.title} x${c.qty} = ₹${c.price*c.qty}`).join('\\n');
+  const note = `Subtotal ₹${t.sub} | Discount ₹${t.disc} | Delivery ₹${t.ship}`;
+  document.getElementById('orderNote').textContent = `${itemsText.replaceAll('\\n', ' | ')} | ${note}`;
+
+  // WhatsApp auto-message (to store/business number)
+  const bizNumber = "918878211880"; // with country code
+  const msg = `Order Details%0A%0AName: ${encodeURIComponent(customer.name||'')}%0APhone: ${encodeURIComponent(customer.phone||'')}%0AAddress: ${encodeURIComponent((customer.address||'')+(customer.city?(', '+customer.city):'')+(customer.state?(', '+customer.state):''))}%0A%0AItems:%0A${encodeURIComponent(itemsText)}%0A%0ACoupon: ${encodeURIComponent(cartCoupon||'NA')}
+%0ATotal to Pay: ₹${encodeURIComponent(t.pay)}%0APayment: ${encodeURIComponent(customer.payment||'')}%0AUPI Link: ${encodeURIComponent(uri)}`.replace(/\\s/g,'%20');
+  const wa = `https://wa.me/${bizNumber}?text=${msg}`;
+  const waBtn = document.getElementById('waShare');
+  waBtn.href = wa;
+
+  // Show thankyou modal
+  document.getElementById('amt').textContent=t.pay;
+  const method=customer.payment||'';
+  document.getElementById('upiBox').style.display = method.includes('UPI') ? 'block':'none';
+  document.getElementById('thankyou').showModal();
+
+  // Log + clear cart
+  console.log('FINAL ORDER', {items:cart, coupon:cartCoupon, totals:t, customer});
+  cart=[]; cartCoupon=''; saveCart(); updateBadge();
+  document.getElementById('cart').close(); checkout.close();
+}
+
+/* Helpers */
+function copyUPI(){
+  const el=document.getElementById('upiLink'); el.select(); el.setSelectionRange(0,99999);
+  try{ document.execCommand('copy'); }catch(e){ navigator.clipboard.writeText(el.value); }
+}
+
+/* Close ESC */
+document.addEventListener('keydown', (ev)=>{
+  if(ev.key==='Escape'){ if(drawer.open) drawer.close(); if(cart.open) cart.close(); if(checkout.open) checkout.close(); if(thankyou.open) thankyou.close(); }
+});
+</script>
 </body>
 </html>
